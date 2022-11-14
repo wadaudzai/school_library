@@ -1,8 +1,6 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# React Group Project - Fábio Lima and Abdul Rahman Daudzai
-
-> Ruby Enumerable
+# School Library - Abdul Rahman Daudzai
 
 ## Built With
 
@@ -24,12 +22,6 @@ git clone https://github.com/limavfabio/morse_decoder.git
 
 - GitHub: [@wadaudzai](https://github.com/wadaudzai)
 - LinkedIn: [@wadaudzai](https://www.linkedin.com/in/)
-
-👤 **Fábio Vinícius Dias Lima**
-
-- GitHub: [limavfabio](https://github.com/limavfabio)
-- LinkedIn: [limavfabio](https://www.linkedin.com/in/limavfabio)
-- Twitter: [limavfabio](https://twitter.com/limavfabio)
 
 ## 🤝 Contributing
 
