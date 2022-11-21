@@ -24,28 +24,43 @@ class App
     puts ''
   end
 
-  def create_person
-    puts "Do you want to crete a student (1) or a teacher (2)?"
-    print "[Input the number]: "
-    person_type = gets.chomp.to_i
-    print "Name: "
+  def create_student
+    print 'Name: '
     name = gets.chomp
-    print "Age : "
+    print 'Age: '
     age = gets.chomp.to_i
+    print 'Classroom: '
+    classroom = gets.chomp
+    print 'Has parent permission? [Y/N]: '
+    parent_permission = gets.chomp.downcase == 'y'
+    @people << Student.new(age, classroom, name, parent_permission)
+  end
+
+  def create_teacher
+    print 'Name: '
+    name = gets.chomp
+    print 'Age: '
+    age = gets.chomp.to_i
+    print 'Specialization: '
+    specialization = gets.chomp
+    @people << Teacher.new(age, specialization, name)
+  end
+
+  def create_person
+    puts 'Do you want to crete a student (1) or a teacher (2)?'
+    print '[Input the number]: '
+    person_type = gets.chomp.to_i
+
     case person_type
     when 1
-      print "Has parent permission? [Y/N]: "
-      parent_permission = gets.chomp.downcase == "y"
-      @people << Student.new(age, classroom = nil, name, parent_permission)
+      create_student
     when 2
-      print "Specialization: "
-      specialization = gets.chomp
-      @people << Teacher.new(age, specialization, name)
+      create_teacher
     else
-      puts "Invalid option"
+      puts 'Invalid option'
       return
     end
-    puts "Person created successfully"
+    puts 'Person created successfully'
   end
 
   def create_book
