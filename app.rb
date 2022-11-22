@@ -4,12 +4,29 @@ require './person'
 require './rental'
 require './student'
 require './teacher'
+require 'json'
 
 class App
   def initialize
     @people = []
     @books = []
     @rentals = []
+  end
+
+  def store_people
+    people = @people.map { |person| { Type: person.class, Name: person.name, ID: person.id, Age: person.age } }
+    people = JSON.generate(people)
+    File.open('./store/people.json', 'w') do |file|
+      file.write people
+    end
+  end
+
+  def store_books
+    books = @books.map { |book| { Title: book.title, Author: book.author } }
+    books = JSON.generate(books)
+    File.open('./store/books.json', 'w') do |file|
+      file.write books
+    end
   end
 
   def list_books
