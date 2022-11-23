@@ -4,12 +4,47 @@ require './person'
 require './rental'
 require './student'
 require './teacher'
+require 'json'
 
 class App
   def initialize
     @people = []
     @books = []
     @rentals = []
+  end
+
+  def store_people
+    people = @people.map do |person|
+      { type: person.class, name: person.name, id: person.id, age: person.age }
+    end
+    people = JSON.generate(people)
+    File.write('./store/people.json', people)
+  end
+
+  def load_people
+    return unless File.exist?('./store/people.json')
+
+    JSON.parse(File.read('./store/people.json')).each do |person|
+      @people << if person['type'] == 'Student'
+                   Student.new(person['age'], person['name'])
+                 else
+                   Teacher.new(person['age'], person['specialization'], person['name'])
+                 end
+    end
+  end
+
+  def store_books
+    books = @books.map { |book| { title: book.title, author: book.author } }
+    books = JSON.generate(books)
+    File.write('./store/books.json', books)
+  end
+
+  def load_books
+    return unless File.exist?('./store/books.json')
+
+    JSON.parse(File.read('./store/books.json')).each do |book|
+      @books << Book.new(book['title'], book['author'])
+    end
   end
 
   def list_books
@@ -85,6 +120,32 @@ class App
     date = gets.chomp
     @rentals << Rental.new(date, @people[person_number], @books[book_number])
     puts "Rental created successfully \n\n"
+  end
+
+  def store_rentals
+    rentals = @rentals.map do |rental|
+      {
+        date: rental.date,
+        person: { type: rental.person.class, name: rental.person.name, id: rental.person.id, age: rental.person.age,
+                  specialization: rental.person.specialization },
+        book: { title: rental.book.title, author: rental.book.author }
+      }
+    end
+    File.write('./store/rentals.json', JSON.generate(rentals))
+  end
+
+  def load_rentals
+    return unless File.exist?('./store/rentals.json')
+
+    JSON.parse(File.read('./store/rentals.json')).each do |rental|
+      person = if rental['person']['type'] == 'Student'
+                 Student.new(rental['person']['age'], rental['person']['name'])
+               else
+                 Teacher.new(rental['person']['age'], rental['person']['specialization'], rental['person']['name'])
+               end
+      book = Book.new(rental['book']['title'], rental['book']['author'])
+      @rentals << Rental.new(rental['date'], person, book)
+    end
   end
 
   def list_rentals
