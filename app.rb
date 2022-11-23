@@ -14,38 +14,36 @@ class App
   end
 
   def store_people
-    people = @people.map { |person| { type: person.class, name: person.name, id: person.id, age: person.age, specialization: person.specialization } }
-    people = JSON.generate(people)
-    File.open('./store/people.json', 'w') do |file|
-      file.write people
+    people = @people.map do |person|
+      { type: person.class, name: person.name, id: person.id, age: person.age, specialization: person.specialization }
     end
+    people = JSON.generate(people)
+    File.write('./store/people.json', people)
   end
 
-  def load_people 
-    if File.exist?('./store/people.json')
-      JSON.parse(File.read('./store/people.json')).each do |person|
-        if person['type'] == 'Student' 
-          @people << Student.new(person['age'], person['name'])
-        else 
-          @people << Teacher.new(person['age'], person['specialization'], person['name'])
-        end
-      end
+  def load_people
+    return unless File.exist?('./store/people.json')
+
+    JSON.parse(File.read('./store/people.json')).each do |person|
+      @people << if person['type'] == 'Student'
+                   Student.new(person['age'], person['name'])
+                 else
+                   Teacher.new(person['age'], person['specialization'], person['name'])
+                 end
     end
   end
 
   def store_books
     books = @books.map { |book| { title: book.title, author: book.author } }
     books = JSON.generate(books)
-    File.open('./store/books.json', 'w') do |file|
-      file.write books
-    end
+    File.write('./store/books.json', books)
   end
 
-  def load_books 
-    if File.exist?('./store/books.json')
-      JSON.parse(File.read('./store/books.json')).each do |book| 
-        @books << Book.new(book['title'], book['author'])
-      end
+  def load_books
+    return unless File.exist?('./store/books.json')
+
+    JSON.parse(File.read('./store/books.json')).each do |book|
+      @books << Book.new(book['title'], book['author'])
     end
   end
 
@@ -125,26 +123,29 @@ class App
   end
 
   def store_rentals
-    rentals = @rentals.map { |rental| {
-      date: rental.date,
-      person: { type: rental.person.class, name: rental.person.name, id: rental.person.id, age: rental.person.age, specialization: rental.person.specialization },
-      book: { title: rental.book.title, author: rental.book.author }
-      } }
+    rentals = @rentals.map do |rental|
+      {
+        date: rental.date,
+        person: { type: rental.person.class, name: rental.person.name, id: rental.person.id, age: rental.person.age,
+                  specialization: rental.person.specialization },
+        book: { title: rental.book.title, author: rental.book.author }
+      }
+    end
     File.write('./store/rentals.json', JSON.generate(rentals))
   end
 
   def load_rentals
-    if File.exist?('./store/rentals.json')
-      JSON.parse(File.read('./store/rentals.json')).each do |rental|
-        if rental['person']['type'] == 'Student'
-          person = Student.new(rental['person']['age'], rental['person']['name'])
-          book = Book.new(rental['book']['title'], rental['book']['author'])
-          @rentals << Rental.new(rental['date'], person, book)
-        else
-          person = Teacher.new(rental['person']['age'], rental['person']['specialization'], rental['person']['name'])
-          book = Book.new(rental['book']['title'], rental['book']['author'])
-          @rentals << Rental.new(rental['date'], person, book)
-        end
+    return unless File.exist?('./store/rentals.json')
+
+    JSON.parse(File.read('./store/rentals.json')).each do |rental|
+      if rental['person']['type'] == 'Student'
+        person = Student.new(rental['person']['age'], rental['person']['name'])
+        book = Book.new(rental['book']['title'], rental['book']['author'])
+        @rentals << Rental.new(rental['date'], person, book)
+      else
+        person = Teacher.new(rental['person']['age'], rental['person']['specialization'], rental['person']['name'])
+        book = Book.new(rental['book']['title'], rental['book']['author'])
+        @rentals << Rental.new(rental['date'], person, book)
       end
     end
   end
