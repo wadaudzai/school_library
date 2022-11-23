@@ -140,11 +140,10 @@ class App
     JSON.parse(File.read('./store/rentals.json')).each do |rental|
       if rental['person']['type'] == 'Student'
         person = Student.new(rental['person']['age'], rental['person']['name'])
-        book = Book.new(rental['book']['title'], rental['book']['author'])
       else
         person = Teacher.new(rental['person']['age'], rental['person']['specialization'], rental['person']['name'])
-        book = Book.new(rental['book']['title'], rental['book']['author'])
       end
+      book = Book.new(rental['book']['title'], rental['book']['author'])
       @rentals << Rental.new(rental['date'], person, book)
     end
   end
