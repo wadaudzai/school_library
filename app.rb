@@ -14,18 +14,39 @@ class App
   end
 
   def store_people
-    people = @people.map { |person| { Type: person.class, Name: person.name, ID: person.id, Age: person.age } }
+    people = @people.map { |person| { type: person.class, name: person.name, id: person.id, age: person.age , specialization: person.specialization} }
     people = JSON.generate(people)
     File.open('./store/people.json', 'w') do |file|
       file.write people
     end
   end
 
+  def load_people 
+    if File.exist?('./store/people.json')
+      JSON.parse(File.read('./store/people.json')).each do |person|
+        if person['type'] == 'Student' 
+          @people << Student.new(person['age'], person['name'])
+        else 
+          @people << Teacher.new(person['age'], person['specialization'], person['name'])
+        end
+      end
+    end
+  end
+
+
   def store_books
-    books = @books.map { |book| { Title: book.title, Author: book.author } }
+    books = @books.map { |book| { title: book.title, author: book.author } }
     books = JSON.generate(books)
     File.open('./store/books.json', 'w') do |file|
       file.write books
+    end
+  end
+
+  def load_books 
+    if File.exist?('./store/books.json')
+      JSON.parse(File.read('./store/books.json')).each do |book| 
+        @books << Book.new(book['title'], book['author'])
+      end
     end
   end
 
