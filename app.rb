@@ -138,11 +138,11 @@ class App
     return unless File.exist?('./store/rentals.json')
 
     JSON.parse(File.read('./store/rentals.json')).each do |rental|
-      if rental['person']['type'] == 'Student'
-        person = Student.new(rental['person']['age'], rental['person']['name'])
-      else
-        person = Teacher.new(rental['person']['age'], rental['person']['specialization'], rental['person']['name'])
-      end
+      person = if rental['person']['type'] == 'Student'
+                 Student.new(rental['person']['age'], rental['person']['name'])
+               else
+                 Teacher.new(rental['person']['age'], rental['person']['specialization'], rental['person']['name'])
+               end
       book = Book.new(rental['book']['title'], rental['book']['author'])
       @rentals << Rental.new(rental['date'], person, book)
     end
