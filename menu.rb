@@ -14,6 +14,7 @@ class Menu
         puts 'Thank you for using this app'
         app.store_books
         app.store_people
+        app.store_rentals
         break
       end
     end

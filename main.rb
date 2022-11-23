@@ -8,6 +8,7 @@ class Main
     puts "\nWelcome to OOP School Library App!\n\n"
     app.load_people
     app.load_books
+    app.load_rentals
     menu.print_menu(app)
   end
 end
