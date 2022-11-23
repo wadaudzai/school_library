@@ -15,7 +15,7 @@ class App
 
   def store_people
     people = @people.map do |person|
-      { type: person.class, name: person.name, id: person.id, age: person.age, }
+      { type: person.class, name: person.name, id: person.id, age: person.age }
     end
     people = JSON.generate(people)
     File.write('./store/people.json', people)
