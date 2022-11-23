@@ -141,12 +141,11 @@ class App
       if rental['person']['type'] == 'Student'
         person = Student.new(rental['person']['age'], rental['person']['name'])
         book = Book.new(rental['book']['title'], rental['book']['author'])
-        @rentals << Rental.new(rental['date'], person, book)
       else
         person = Teacher.new(rental['person']['age'], rental['person']['specialization'], rental['person']['name'])
         book = Book.new(rental['book']['title'], rental['book']['author'])
-        @rentals << Rental.new(rental['date'], person, book)
       end
+      @rentals << Rental.new(rental['date'], person, book)
     end
   end
 
