@@ -11,7 +11,7 @@ describe 'Book' do
       expect(book.title).to eq 'Hobbit'
       expect(book.author).to eq 'Jhon'
     end
-    it 'should return true if the age is greater than or equal to 18' do
+    it 'Check and return rentals' do
       expect(book.rentals).to eq([])
     end
   end
