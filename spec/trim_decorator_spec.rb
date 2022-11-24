@@ -4,7 +4,7 @@ require_relative '../person'
 describe TrimmerDecorator do
   context 'Use a Trimmer Decorator' do
     it 'Should return a trimmed person name' do
-      person = Person.new(23, 'walid')
+      person = Person.new(23, 'walid', true)
       trimmed = TrimmerDecorator.new(person)
       expect(trimmed.correct_name) == 'wal'
     end

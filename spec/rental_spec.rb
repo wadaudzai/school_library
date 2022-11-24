@@ -4,7 +4,7 @@ require_relative '../person'
 
 describe Rental do
   context 'should return an instance of a Rental class' do
-    person = Person.new(26, 'Peter')
+    person = Person.new(26, 'Peter', true)
     book = Book.new('Game of Thrones', 'George Martin')
     rental = Rental.new('2020-03-23', person, book)
 
